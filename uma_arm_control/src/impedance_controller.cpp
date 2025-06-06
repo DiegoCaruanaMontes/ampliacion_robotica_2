@@ -220,8 +220,8 @@ private:
     // Method to calculate forward kinematics
     Eigen::VectorXd forward_kinematics()
     {
-        double q1_ = joint_positions_(1);
-        double q2_ = joint_positions_(2);
+        double q1_ = joint_positions_(0);
+        double q2_ = joint_positions_(1);
         // Placeholder for forward kinematics x = [l1 * cos(q1) + l2 * cos(q1 + q2), l2 * sin(q1) + l2 * sin(q1 + q2)]
         Eigen::VectorXd x(2);
         x << l1_*cos(q1_)+l2_*cos(q1_+q2_), l2_*sin(q1_)+l2_*sin(q1_+q2_);
@@ -233,10 +233,10 @@ private:
     void update_jacobians()
     {
         // Placeholder for jacobian and jacobian_derivative matrices
-        double q1 = joint_positions_(1);
-        double q2 = joint_positions_(2);
-        double dq1 = joint_velocities_(1);
-        double dq2 = joint_velocities_(2);
+        double q1 = joint_positions_(0);
+        double q2 = joint_positions_(1);
+        double dq1 = joint_velocities_(0);
+        double dq2 = joint_velocities_(1);
         // Calculate J(q)
         jacobian_ << -l1_ * sin(q1) - l2_ * sin(q1 + q2), -l2_ * sin(q1 + q2),
             l1_ * cos(q1) + l2_ * cos(q1 + q2), l2_ * cos(q1 + q2);
@@ -258,7 +258,7 @@ private:
     {
         // Placeholder for first-order differential kinematics
         Eigen::VectorXd x_dot(2);
-        x_dot << jacobian_*joint_velocities_;
+        x_dot = jacobian_*joint_velocities_;
 
         return x_dot;
     }
@@ -275,7 +275,7 @@ private:
 
         // Replace with actual impedance controller equation: x'' = M^(-1)[F_ext - k x_error - B x'_error]
         Eigen::VectorXd x_ddot(2);
-        x_ddot << mass_matrix_.inverse()*(external_wrenches_ - stiffness_matrix_*x_error - damping_matrix_*x_dot_error);
+        x_ddot = mass_matrix_.inverse()*(external_wrenches_ - stiffness_matrix_*x_error - damping_matrix_*x_dot_error);
 
         return x_ddot;
     }
