@@ -152,7 +152,7 @@ private:
         Eigen::VectorXd torque(2);
         // torque << M.inverse() * (joint_torques_ - C - Fb * joint_velocities_ - g_vec + tau_ext);
         //torque << M.inverse() * (joint_torques_ - C - Fb * joint_velocities_ - g_vec + tau_ext);
-        torque << M*desired_joint_accelerations_ + C + Fb*joint_velocities_ + g_vec;
+        torque = M*desired_joint_accelerations_ + C + Fb*joint_velocities_ + g_vec;
 
         return torque;
     }

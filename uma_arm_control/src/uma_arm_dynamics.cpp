@@ -164,11 +164,11 @@ private:
             l1_ * cos(q1) + l2_ * cos(q1 + q2), l2_ * cos(q1 + q2);
 
         // Calculate tau_ext
-        tau_ext << J.transpose() * external_wrenches_;
+        tau_ext = J.transpose() * external_wrenches_;
 
         // Calculate joint accelerations using the dynamic model: q'' = M^(-1)[tau - C(q,q')q' - Fbq' - g(q) + tau_ext]
         Eigen::VectorXd q_ddot(2);
-        q_ddot << M.inverse() * (joint_torques_ - C - Fb * joint_velocities_ - g_vec + tau_ext);
+        q_ddot = M.inverse() * (joint_torques_ - C - Fb * joint_velocities_ - g_vec + tau_ext);
         // C*joint_velocities?
         // Return joint accelerations
         return q_ddot;
@@ -180,7 +180,7 @@ private:
         // Placeholder for velocity calculation
         // Integrate velocity over the time step (elapsed_time_)
         Eigen::VectorXd q_dot(2);
-        q_dot << joint_velocities_ + joint_accelerations_ * elapsed_time_;
+        q_dot = joint_velocities_ + joint_accelerations_ * elapsed_time_;
 
         return q_dot;
     }
@@ -191,7 +191,7 @@ private:
         // Placeholder for position calculation
         // Integrate position over the time step (elapsed_time_)
         Eigen::VectorXd q(2);
-        q << joint_positions_ + joint_velocities_ * elapsed_time_;
+        q = joint_positions_ + joint_velocities_ * elapsed_time_;
         
         return q;
     }
