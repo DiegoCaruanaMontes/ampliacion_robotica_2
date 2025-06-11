@@ -164,7 +164,7 @@ private:
             l1_ * cos(q1) + l2_ * cos(q1 + q2), l2_ * cos(q1 + q2);
 
         // Calculate tau_ext
-        tau_ext = J.transpose() * external_wrenches_;
+        tau_ext = J.transpose().eval() * external_wrenches_;
 
         // Calculate joint accelerations using the dynamic model: q'' = M^(-1)[tau - C(q,q')q' - Fbq' - g(q) + tau_ext]
         Eigen::VectorXd q_ddot(2);
