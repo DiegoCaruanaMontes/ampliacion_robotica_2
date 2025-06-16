@@ -224,7 +224,7 @@ private:
         double q2_ = joint_positions_(1);
         // Placeholder for forward kinematics x = [l1 * cos(q1) + l2 * cos(q1 + q2), l2 * sin(q1) + l2 * sin(q1 + q2)]
         Eigen::VectorXd x(2);
-        x << l1_*cos(q1_)+l2_*cos(q1_+q2_), l2_*sin(q1_)+l2_*sin(q1_+q2_);
+        x << l1_*cos(q1_)+l2_*cos(q1_+q2_), l1_*sin(q1_)+l2_*sin(q1_+q2_);
 
         return x;
     }
